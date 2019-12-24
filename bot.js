@@ -17,7 +17,7 @@ bot.use(async (ctx, next) => {
 })
 
 bot.start(async (ctx, next) => {
-  ctx.replyWithHTML('Привет, я дополню твою историю. Нужно лишь написать её начало из нескольких предложений. Чем четче будет сформулировано начало, тем лучше будет результат.\n\n<b>GitHub бота:</b> github.com/LyoSU/history-ai-bot\nБот работает на основе API от github.com/mgrankin/ru_transformers\n\n<b>Блог разработчика:</b> @LyBlog')
+  ctx.replyWithHTML('Привет, я дополню твою историю. Нужно лишь написать её начало из нескольких предложений. Чем четче будет сформулировано начало, тем лучше будет результат.\n\n<b>GitHub бота:</b> github.com/LyoSU/history-ai-bot\n\nБот это лишь "обертка" для взаимодействия с API. Авторство принадлежит оригинальному автору проекта и все благодарности необходимо отправлять ему.\n\nGitHub проекта: github.com/mgrankin/ru_transformers\nВеб-версия проекта: text.skynet.center\n\n<b>Блог разработчика:</b> @LyBlog')
 })
 
 bot.use(async (ctx, next) => {
