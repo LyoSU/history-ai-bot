@@ -28,6 +28,7 @@ bot.use(async (ctx, next) => {
   })
 
   if (ctx.message.text) {
+    ctx.replyWithChatAction('typing')
     const text = ctx.message.text
 
     const mediumResult = await extend.post('https://models.dobro.ai/gpt2/medium/', {
