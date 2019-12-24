@@ -35,7 +35,7 @@ bot.use(async (ctx, next) => {
       json: {
         prompt: text,
         length: 60,
-        num_samples: 4
+        num_samples: 1
       }
     })
 
