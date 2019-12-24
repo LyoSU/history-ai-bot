@@ -33,7 +33,7 @@ bot.use(async (ctx, next) => {
     const mediumResult = await extend.post('https://models.dobro.ai/gpt2/medium/', {
       json: {
         prompt: text,
-        length: 30,
+        length: 60,
         num_samples: 4
       }
     })
