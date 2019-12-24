@@ -1,8 +1,8 @@
 module.exports = {
   apps: [{
-    name: 'app',
+    name: 'historyAiBot',
     script: './index.js',
-    instances: 'max',
+    instances: 1,
     exec_mode: 'cluster',
     watch: true,
     env: {
