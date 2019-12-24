@@ -23,7 +23,7 @@ bot.start(async (ctx, next) => {
 bot.use(async (ctx, next) => {
   const extend = got.extend({
     responseType: 'json',
-    timeout: 5000,
+    timeout: 10000,
     throwHttpErrors: false
   })
 
