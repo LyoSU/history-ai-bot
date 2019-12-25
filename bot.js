@@ -1,4 +1,5 @@
 const Telegraf = require('telegraf')
+const rateLimit = require('telegraf-ratelimit')
 const Extra = require('telegraf/extra')
 const fetch = require('node-fetch')
 
@@ -12,7 +13,14 @@ const FETCH_DEFAULT = {
   method: 'POST'
 }
 
+const limitConfig = {
+  window: 3000,
+  limit: 1,
+  onLimitExceeded: (ctx, next) => ctx.reply('Пиши не так часто :(')
+}
 const bot = new Telegraf(process.env.BOT_TOKEN)
+
+bot.use(rateLimit(limitConfig))
 
 bot.use(async (ctx, next) => {
   const before = new Date()
