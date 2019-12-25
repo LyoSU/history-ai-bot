@@ -13,14 +13,7 @@ const FETCH_DEFAULT = {
   method: 'POST'
 }
 
-const limitConfig = {
-  window: 3000,
-  limit: 1,
-  onLimitExceeded: (ctx, next) => ctx.reply('Пиши не так часто :(')
-}
 const bot = new Telegraf(process.env.BOT_TOKEN)
-
-bot.use(rateLimit(limitConfig))
 
 bot.use(async (ctx, next) => {
   const before = new Date()
@@ -70,8 +63,14 @@ const handlerMessageGen = async (ctx) => {
   })
 }
 
-bot.on('message', handlerMessageGen)
-bot.command('g', handlerMessageGen)
+const limitConfig = {
+  window: 5000,
+  limit: 1,
+  onLimitExceeded: (ctx, next) => ctx.reply('Пиши не так часто :(')
+}
+
+bot.on('message', rateLimit(limitConfig), handlerMessageGen)
+bot.command('g', rateLimit(limitConfig), handlerMessageGen)
 
 bot.on('inline_query', async (ctx) => {
   const { inlineQuery, answerInlineQuery } = ctx
