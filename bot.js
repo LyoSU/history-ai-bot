@@ -51,7 +51,7 @@ const handlerMessageGen = async (ctx) => {
       const { replies } = await apiRequest(text, 1)
       answer = `<i>${text}</i>${replies.join('')}`
     } catch (error) {
-      answer = '<b>Ошибка!</b>\nНе могу сгенерировать историю, попробуй повторить попытку позже'
+      answer = '<b>Ошибка!</b>\nНе могу сгенерировать историю, попробуй повторить попытку позже.'
     }
   } else {
     answer = 'Я понимаю только текст.'
@@ -133,6 +133,18 @@ bot.catch((err, ctx) => {
   console.log(`Ooops, ecountered an error for ${ctx.updateType}`, err)
 })
 
-bot.launch().then(() => {
-  console.log('bot start polling')
-})
+if (process.env.BOT_DOMAIN) {
+  bot.launch({
+    webhook: {
+      domain: process.env.BOT_DOMAIN,
+      hookPath: `/HistoryBot:${process.env.BOT_TOKEN}`,
+      port: process.env.WEBHOOK_PORT || 2200
+    }
+  }).then(() => {
+    console.log('bot start webhook')
+  })
+} else {
+  bot.launch().then(() => {
+    console.log('bot start polling')
+  })
+}
