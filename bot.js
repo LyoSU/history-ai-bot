@@ -9,11 +9,8 @@ const FETCH_DEFAULT = {
   method: 'POST'
 }
 
-const bot = new Telegraf(process.env.BOT_TOKEN, {
-  telegram: {
-    apiRoot: 'http://51.15.86.205:8012'
-  }
-})
+const bot = new Telegraf(process.env.BOT_TOKEN)
+
 bot.use(async (ctx, next) => {
   const before = new Date()
   await next(ctx)
@@ -23,7 +20,7 @@ bot.use(async (ctx, next) => {
 })
 
 bot.start(async (ctx) => {
-  ctx.replyWithHTML('Привет, я дополню твою историю. Нужно лишь написать её начало из нескольких предложений. Чем четче будет сформулировано начало, тем лучше будет результат.\n\n<b>GitHub бота:</b> github.com/LyoSU/history-ai-bot\n\nБот это лишь "обертка" для взаимодействия с API. Авторство принадлежит оригинальному автору проекта и все благодарности необходимо отправлять ему.\n\nGitHub проекта: github.com/mgrankin/ru_transformers\nВеб-версия проекта: text.skynet.center\n\n<b>Блог разработчика:</b> @LyBlog')
+  ctx.replyWithHTML(`Привет, я дополню твою историю. Нужно лишь написать её начало из нескольких предложений. Чем четче будет сформулировано начало, тем лучше будет результат.\nБот также умеет работать inline, для этого напиши в чате его username <code>@${ctx.me}</code>\n\n<b>GitHub бота:</b> github.com/LyoSU/history-ai-bot\n\nБот это лишь "обертка" для взаимодействия с API. Авторство принадлежит оригинальному автору проекта и все благодарности необходимо отправлять ему.\n\nGitHub проекта: github.com/mgrankin/ru_transformers\nВеб-версия проекта: text.skynet.center\n\n<b>Блог разработчика бота:</b> @LyBlog`)
 })
 
 const apiRequest = async (text, samples) => {
@@ -40,23 +37,30 @@ const apiRequest = async (text, samples) => {
   return response.json()
 }
 
-bot.on('message', async (ctx) => {
+const handlerMessageGen = async (ctx) => {
+  let answer
+  ctx.replyWithChatAction('typing')
   if (ctx.message.text) {
-    ctx.replyWithChatAction('typing')
-    const text = ctx.message.text
+    let text = ctx.message.text
+    if (ctx.message.reply_to_message && ctx.message.reply_to_message.text) text = ctx.message.reply_to_message.text
 
     try {
       const { replies } = await apiRequest(text, 1)
-      const answer = `<i>${text}</i>${replies.join('')}`
-
-      await ctx.replyWithHTML(answer, {
-        reply_to_message_id: ctx.message.message_id
-      })
-    } catch (e) {
-
+      answer = `<i>${text}</i>${replies.join('')}`
+    } catch (error) {
+      answer = 'Ошибка!\nНе могу сгенерировать историю, попробуй повторить попытку позже'
     }
+  } else {
+    answer = 'Я понимаю только текст.'
   }
-})
+
+  await ctx.replyWithHTML(answer, {
+    reply_to_message_id: ctx.message.message_id
+  })
+}
+
+bot.on('message', handlerMessageGen)
+bot.command('g', handlerMessageGen)
 
 bot.on('inline_query', async (ctx) => {
   const { inlineQuery, answerInlineQuery } = ctx
@@ -75,7 +79,7 @@ bot.on('inline_query', async (ctx) => {
           reply_markup: {
             inline_keyboard: [
               [
-                { text: '⏳ Генерируется история', callback_data: 'upld' }
+                { text: '⏳ Генерируется история', callback_data: 'gen' }
               ]
             ]
           }
@@ -108,8 +112,8 @@ bot.on('inline_query', async (ctx) => {
 })
 
 bot.on('chosen_inline_result', async (ctx) => {
-  const { chosenInlineResult } = ctx;
-  const { query, inline_message_id } = chosenInlineResult;
+  const { chosenInlineResult } = ctx
+  const { query, inline_message_id } = chosenInlineResult
   if (query && inline_message_id) {
     try {
       const { replies } = await apiRequest(query, 1)
@@ -117,10 +121,9 @@ bot.on('chosen_inline_result', async (ctx) => {
 
       await ctx.telegram.editMessageText(null, null, inline_message_id, answer, Extra.HTML())
     } catch (e) {
-      await ctx.telegram.editMessageText(null, null, inline_message_id, 'Не могу сгенерировать историю');
+      await ctx.telegram.editMessageText(null, null, inline_message_id, 'Не могу сгенерировать историю')
     }
   }
-  console.log('chosen inline result', chosenInlineResult);
 })
 
 bot.catch((err, ctx) => {
