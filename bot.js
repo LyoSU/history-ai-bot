@@ -52,7 +52,7 @@ const handlerMessageGen = async (ctx) => {
       const { replies } = await apiRequest(text, 1)
       answer = `<i>${text}</i>${replies.join('')}`
     } catch (error) {
-      answer = '<b>Ошибка!</b>\nНе могу сгенерировать историю, попробуй повторить попытку позже.'
+      answer = '<b>Ошибка ☹️</b>\nНе могу сгенерировать историю, попробуй повторить попытку позже.\nБот возможно сейчас очень нагружен или испытывает другие трудности.'
     }
   } else {
     answer = 'Я понимаю только текст.'
