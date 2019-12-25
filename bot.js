@@ -64,9 +64,9 @@ const handlerMessageGen = async (ctx) => {
 }
 
 const limitConfig = {
-  window: 5000,
+  window: 10000,
   limit: 1,
-  onLimitExceeded: (ctx, next) => ctx.reply('Пиши не так часто :(')
+  onLimitExceeded: (ctx, next) => ctx.reply('<b>Ошибка ☹️</b>\nЯ не могу так часто с тобой работать.\nПиши не так часто.')
 }
 
 bot.on('message', rateLimit(limitConfig), handlerMessageGen)
