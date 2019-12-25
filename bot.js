@@ -5,7 +5,10 @@ const fetch = require('node-fetch')
 const API_LINK = 'https://models.dobro.ai/gpt2/medium/'
 const FETCH_DEFAULT = {
   timeout: 10000,
-  headers: { 'Content-Type': 'application/json' },
+  headers: {
+    'User-Agent': 'telegram-bot (https://github.com/LyoSU/history-ai-bot/)<mail@lyo.su>',
+    'Content-Type': 'application/json'
+  },
   method: 'POST'
 }
 
@@ -48,7 +51,7 @@ const handlerMessageGen = async (ctx) => {
       const { replies } = await apiRequest(text, 1)
       answer = `<i>${text}</i>${replies.join('')}`
     } catch (error) {
-      answer = 'Ошибка!\nНе могу сгенерировать историю, попробуй повторить попытку позже'
+      answer = '<b>Ошибка!</b>\nНе могу сгенерировать историю, попробуй повторить попытку позже'
     }
   } else {
     answer = 'Я понимаю только текст.'
