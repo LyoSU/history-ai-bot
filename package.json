@@ -19,7 +19,7 @@
   "homepage": "https://github.com/LyoSU/history-ai-bot#readme",
   "dependencies": {
     "dotenv": "^8.2.0",
-    "got": "^10.2.0",
+    "node-fetch": "^10.2.0",
     "telegraf": "^3.34.1"
   },
   "devDependencies": {
