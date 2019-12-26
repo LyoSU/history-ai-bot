@@ -3,7 +3,7 @@ const rateLimit = require('telegraf-ratelimit')
 const Extra = require('telegraf/extra')
 const fetch = require('node-fetch')
 
-const API_LINK = 'https://models.dobro.ai/gpt2/medium/'
+const API_LINK_MEDIUM = 'https://models.dobro.ai/gpt2/medium/'
 const FETCH_DEFAULT = {
   timeout: 10000,
   headers: {
@@ -24,7 +24,7 @@ bot.use(async (ctx, next) => {
 })
 
 bot.start(async (ctx) => {
-  ctx.replyWithHTML(`Привет, я дополню твою историю. Нужно лишь написать её начало из нескольких предложений. Чем четче будет сформулировано начало, тем лучше будет результат.\n\nИспользуйте команду <code>/t</code> в ответ на сообщение для продолжения истории (в группах необходимо писать <code>/t@${ctx.me}</code>).\n\nБот также умеет работать inline, для этого напиши в чате его username <code>@${ctx.me}</code>\n\n<b>GitHub бота:</b> github.com/LyoSU/history-ai-bot\n\nБот это лишь "обертка" для взаимодействия с API. Авторство принадлежит оригинальному автору проекта и все благодарности необходимо отправлять ему.\n\nGitHub проекта: github.com/mgrankin/ru_transformers\nВеб-версия проекта: text.skynet.center\n\n<b>Блог разработчика бота:</b> @LyBlog\nfeedback: @ly_oBot`)
+  ctx.replyWithHTML(`Привет, я дополню твою историю при помощи нейросети. Нужно лишь написать её начало из нескольких предложений. Чем четче будет сформулировано начало, тем лучше будет результат.\n\nИспользуйте команду <code>/t</code> в ответ на сообщение для продолжения истории (в группах необходимо писать <code>/t@${ctx.me}</code>).\n\nБот также умеет работать inline, для этого напиши в чате его username <code>@${ctx.me}</code>\n\n<b>GitHub бота:</b> github.com/LyoSU/history-ai-bot\n\nБот это лишь "обертка" для взаимодействия с API. Авторство принадлежит оригинальному автору проекта и все благодарности необходимо отправлять ему.\n\nGitHub проекта: github.com/mgrankin/ru_transformers\nВеб-версия проекта: text.skynet.center\n\n<b>Блог разработчика бота:</b> @LyBlog\nfeedback: @ly_oBot`)
 })
 
 const apiRequest = async (text, samples) => {
@@ -34,7 +34,7 @@ const apiRequest = async (text, samples) => {
     num_samples: samples
   }
 
-  const response = await fetch(API_LINK, {
+  const response = await fetch(API_LINK_MEDIUM, {
     ...FETCH_DEFAULT,
     body: JSON.stringify(params)
   })
