@@ -108,7 +108,8 @@ bot.on('inline_query', async (ctx) => {
             title: 'Ошибка',
             description: 'Не могу сгенерировать историю',
             input_message_content: {
-              message_text: 'Не могу сгенерировать историю'
+              message_text: '<b>Ошибка ☹️</b>\nК сожалению из-за ограничений автора апи, бот более недоступен.\nВы по преждему можете использовать генератор черех официальный сайт проекта text.skynet.center\n\nПодробнее про бота /start',
+              parse_mode: 'HTML'
             }
           }
         ],
