@@ -75,50 +75,29 @@ bot.command('g', rateLimit(limitConfig), handlerMessageGen)
 bot.on('inline_query', async (ctx) => {
   const { inlineQuery, answerInlineQuery } = ctx
   if (inlineQuery.query) {
-    try {
-      return answerInlineQuery(
-        [{
-          type: 'article',
-          id: +(new Date()),
-          title: 'Сгенерировать историю!',
-          description: 'Нажми чтобы сгенерировать историю!',
-          input_message_content: {
-            message_text: '<i>Генерирую историю...</i>',
-            parse_mode: 'HTML'
-          },
-          reply_markup: {
-            inline_keyboard: [
-              [
-                { text: '⏳ Генерируется история', callback_data: 'gen' }
-              ]
+    return answerInlineQuery(
+      [{
+        type: 'article',
+        id: +(new Date()),
+        title: 'Сгенерировать историю!',
+        description: 'Нажми чтобы сгенерировать историю!',
+        input_message_content: {
+          message_text: '<i>Генерирую историю...</i>',
+          parse_mode: 'HTML'
+        },
+        reply_markup: {
+          inline_keyboard: [
+            [
+              { text: '⏳ Генерируется история', callback_data: 'gen' }
             ]
-          }
-        }],
-        {
-          is_personal: true,
-          cache_time: 0
+          ]
         }
-      )
-    } catch (e) {
-      return answerInlineQuery(
-        [
-          {
-            type: 'article',
-            id: +new Date(),
-            title: 'Ошибка',
-            description: 'Не могу сгенерировать историю',
-            input_message_content: {
-              message_text: '<b>Ошибка ☹️</b>\nК сожалению из-за ограничений автора апи, бот более недоступен.\nВы по преждему можете использовать генератор черех официальный сайт проекта porfirevich.ru\n\nПодробнее про бота /start',
-              parse_mode: 'HTML'
-            }
-          }
-        ],
-        {
-          is_personal: true,
-          cache_time: 0
-        }
-      )
-    }
+      }],
+      {
+        is_personal: true,
+        cache_time: 0
+      }
+    )
   }
 })
 

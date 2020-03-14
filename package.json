@@ -1,6 +1,6 @@
 {
   "name": "history-ai-bot",
-  "version": "0.1.14",
+  "version": "0.1.15",
   "description": "history-ai-bot",
   "main": "index.js",
   "scripts": {
