@@ -24,7 +24,7 @@ bot.use(async (ctx, next) => {
 })
 
 bot.start(async (ctx) => {
-  ctx.replyWithHTML(`Привет, я дополню твою историю при помощи нейросети. Нужно лишь написать её начало из нескольких предложений. Чем четче будет сформулировано начало, тем лучше будет результат.\n\nИспользуйте команду <code>/g</code> в ответ на сообщение для продолжения истории (в группах необходимо писать <code>/g@${ctx.me}</code>).\n\nБот также умеет работать inline, для этого напиши в чате его username <code>@${ctx.me}</code>\n\n<b>GitHub бота:</b> github.com/LyoSU/history-ai-bot\n\nБот это лишь "обертка" для взаимодействия с API. Авторство принадлежит оригинальному автору проекта и все благодарности необходимо отправлять ему.\n\nGitHub проекта: github.com/mgrankin/ru_transformers\nВеб-версия проекта: text.skynet.center\n\n<b>Блог разработчика бота:</b> @LyBlog\nfeedback: @ly_oBot`)
+  ctx.replyWithHTML(`Привет, я дополню твою историю при помощи нейросети. Нужно лишь написать её начало из нескольких предложений. Чем четче будет сформулировано начало, тем лучше будет результат.\n\nИспользуйте команду <code>/g</code> в ответ на сообщение для продолжения истории (в группах необходимо писать <code>/g@${ctx.me}</code>).\n\nБот также умеет работать inline, для этого напиши в чате его username <code>@${ctx.me}</code>\n\n<b>GitHub бота:</b> github.com/LyoSU/history-ai-bot\n\nБот это лишь "обертка" для взаимодействия с API. Авторство принадлежит оригинальному автору проекта и все благодарности необходимо отправлять ему.\n\nGitHub проекта: github.com/mgrankin/ru_transformers\nВеб-версия проекта: porfirevich.ru\n\n<b>Блог разработчика бота:</b> @LyBlog\nfeedback: @ly_oBot`)
 })
 
 const apiRequest = async (text, samples) => {
@@ -52,7 +52,7 @@ const handlerMessageGen = async (ctx) => {
       const { replies } = await apiRequest(text, 1)
       answer = `<i>${text}</i>${replies.join('')}`
     } catch (error) {
-      answer = '<b>Ошибка ☹️</b>\nК сожалению из-за ограничений автора апи, бот более недоступен.\nВы по преждему можете использовать генератор черех официальный сайт проекта text.skynet.center\n\nПодробнее про бота /start'
+      answer = '<b>Ошибка ☹️</b>\nК сожалению из-за ограничений автора апи, бот более недоступен.\nВы по преждему можете использовать генератор черех официальный сайт проекта porfirevich.ru\n\nПодробнее про бота /start'
     }
   } else {
     answer = 'Я понимаю только текст.'
@@ -108,7 +108,7 @@ bot.on('inline_query', async (ctx) => {
             title: 'Ошибка',
             description: 'Не могу сгенерировать историю',
             input_message_content: {
-              message_text: '<b>Ошибка ☹️</b>\nК сожалению из-за ограничений автора апи, бот более недоступен.\nВы по преждему можете использовать генератор черех официальный сайт проекта text.skynet.center\n\nПодробнее про бота /start',
+              message_text: '<b>Ошибка ☹️</b>\nК сожалению из-за ограничений автора апи, бот более недоступен.\nВы по преждему можете использовать генератор черех официальный сайт проекта porfirevich.ru\n\nПодробнее про бота /start',
               parse_mode: 'HTML'
             }
           }
@@ -132,7 +132,7 @@ bot.on('chosen_inline_result', async (ctx) => {
 
       await ctx.telegram.editMessageText(null, null, inline_message_id, answer, Extra.HTML())
     } catch (e) {
-      await ctx.telegram.editMessageText(null, null, inline_message_id, 'Не могу сгенерировать историю')
+      await ctx.telegram.editMessageText(null, null, inline_message_id, '<b>Ошибка ☹️</b>\nК сожалению из-за ограничений автора апи, бот более недоступен.\nВы по преждему можете использовать генератор черех официальный сайт проекта porfirevich.ru\n\nПодробнее про бота /start')
     }
   }
 })
