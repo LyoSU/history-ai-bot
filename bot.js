@@ -111,7 +111,7 @@ bot.on('chosen_inline_result', async (ctx) => {
 
       await ctx.telegram.editMessageText(null, null, inline_message_id, answer, Extra.HTML())
     } catch (e) {
-      await ctx.telegram.editMessageText(null, null, inline_message_id, '<b>Ошибка ☹️</b>\nК сожалению из-за ограничений автора апи, бот более недоступен.\nВы по преждему можете использовать генератор черех официальный сайт проекта porfirevich.ru\n\nПодробнее про бота /start')
+      await ctx.telegram.editMessageText(null, null, inline_message_id, '<b>Ошибка ☹️</b>\nК сожалению из-за ограничений автора апи, бот более недоступен.\nВы по преждему можете использовать генератор черех официальный сайт проекта porfirevich.ru\n\nПодробнее про бота /start', Extra.HTML())
     }
   }
 })
